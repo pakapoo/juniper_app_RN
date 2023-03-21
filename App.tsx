@@ -63,7 +63,7 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <SearchBar        
-        placeholder="Find your music sheet."        
+        placeholder="Find your music sheet"        
         lightTheme        
         round        
         // onChangeText={text => this.searchFilterFunction(text)}
