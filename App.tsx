@@ -16,7 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DATA = [
   {
@@ -117,17 +117,17 @@ export default function App() {
                   if (route.name === 'Search') {
                     iconName = focused
                       ? 'search'
-                      : 'search-outline';
+                      : 'ios-search';
                   } else if (route.name === 'Settings') {
-                    iconName = focused ? 'list' : 'list-outline';
+                    iconName = focused ? 'ios-list' : 'ios-list-outline';
                   }
       
-                  return <Icon name={iconName} size={size} color={color} />;
+                  return <Ionicons name={iconName} size={size} color={color} />;
                 },
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
               })}>
-        <Tab.Screen name="Home" component={Search} />
+        <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </NavigationContainer>
