@@ -8,48 +8,40 @@ import {
   Text,
   useColorScheme,
   View,
+  FlatList,
 } from 'react-native';
-import { ListItem, SearchBar } from '@rneui/base';
-
+import { SearchBar } from '@rneui/base';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   Colors,
-  // DebugInstructions,
-  // Header,
-  // LearnMoreLinks,
-  // ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const DATA = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    title: 'First Item',
+  },
+  {
+    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    title: 'Second Item',
+  },
+  {
+    id: '3',
+    title: 'Third Item',
+  },
+];
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+type ItemProps = {title: string};
 
-function App(): JSX.Element {
+const Item = ({title}: ItemProps) => (
+  <View style={styles.item}>
+    <Text style={styles.sectionTitle}>{title}</Text>
+  </View>
+);
+
+function Search(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -69,33 +61,25 @@ function App(): JSX.Element {
         // onChangeText={text => this.searchFilterFunction(text)}
         autoCorrect={false}             
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        {/* <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View> */}
-      </ScrollView>
+        <FlatList
+          data={DATA}
+          renderItem={({item}) => <Item title={item.title} />}
+          keyExtractor={item => item.id}
+        />
     </SafeAreaView>
+    
   );
 }
+
+function Settings(): JSX.Element {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -114,6 +98,38 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+    item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
 });
 
-export default App;
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+              screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                  let iconName;
+      
+                  if (route.name === 'Search') {
+                    iconName = focused
+                      ? 'search'
+                      : 'search-outline';
+                  } else if (route.name === 'Settings') {
+                    iconName = focused ? 'list' : 'list-outline';
+                  }
+      
+                  return <Icon name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: 'tomato',
+                tabBarInactiveTintColor: 'gray',
+              })}>
+        <Tab.Screen name="Home" component={Search} />
+        <Tab.Screen name="Settings" component={Settings} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
