@@ -18,7 +18,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import TabNavigation from './components/src/components/TabNavigation';
+import TabNavigation from './src/components/TabNavigation';
 
 
 export default function App() {

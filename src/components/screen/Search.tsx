@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
-  StyleSheet,
   Text,
   useColorScheme,
   View,
@@ -12,14 +11,15 @@ import { SearchBar } from '@rneui/base';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import Style from '../style/Style';
 
-const DATA = [
+const rawData = [
     {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      id: '1',
       title: 'First Item',
     },
     {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      id: '2',
       title: 'Second Item',
     },
     {
@@ -30,17 +30,29 @@ const DATA = [
 
 type ItemProps = {title: string};
 
-const Item = ({title}: ItemProps) => (
-  <View style={styles.item}>
+const Item = ({title}: ItemProps) => {
+  const styles = Style();
+  return (
+  <View style={styles.searchItem}>
     <Text style={styles.sectionTitle}>{title}</Text>
-  </View>
-);
+  </View>)
+};
 
 const Search = () => {
     const isDarkMode = useColorScheme() === 'dark';
-  
     const backgroundStyle = {
       backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
+
+    const [Data, setData] = useState(rawData);
+    const [search, setSearch] = useState("");
+
+    const searchFilterFunction = (text: string) => {
+      const filterData = rawData.filter(element => {
+        return element.title.substring(0, text.length) === text;
+      });
+      setData(filterData);
+      setSearch(text);
     };
   
     return (
@@ -52,12 +64,13 @@ const Search = () => {
         <SearchBar        
           placeholder="Find your music sheet"        
           lightTheme        
-          round        
-          // onChangeText={text => this.searchFilterFunction(text)}
+          round
+          onChangeText={text => searchFilterFunction(text)}
+          value = {search}
           autoCorrect={false}             
         />
           <FlatList
-            data={DATA}
+            data={Data}
             renderItem={({item}) => <Item title={item.title} />}
             keyExtractor={item => item.id}
           />
@@ -65,30 +78,5 @@ const Search = () => {
       
     );
   }
-
-  const styles = StyleSheet.create({
-    sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-    },
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: '600',
-    },
-    sectionDescription: {
-      marginTop: 8,
-      fontSize: 18,
-      fontWeight: '400',
-    },
-    highlight: {
-      fontWeight: '700',
-    },
-      item: {
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
-  });
 
   export default Search;

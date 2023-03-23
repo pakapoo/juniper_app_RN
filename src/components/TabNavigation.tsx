@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Search from '../../screen/Search';
-import Settings from '../../screen/Settings';
+import Search from './screen/Search';
+import Settings from './screen/Settings';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ const TabNavigation = () => {
     <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
+                let iconName: string = "";
     
                 if (route.name === 'Search') {
                   iconName = focused
