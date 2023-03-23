@@ -8,9 +8,6 @@ import {
   FlatList,
 } from 'react-native';
 import { SearchBar } from '@rneui/base';
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
 import Style from '../style/Style';
 
 const rawData = [
@@ -39,27 +36,25 @@ const Item = ({title}: ItemProps) => {
 };
 
 const Search = () => {
+    const styles = Style()
     const isDarkMode = useColorScheme() === 'dark';
-    const backgroundStyle = {
-      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
-
+    
     const [Data, setData] = useState(rawData);
     const [search, setSearch] = useState("");
 
     const searchFilterFunction = (text: string) => {
       const filterData = rawData.filter(element => {
-        return element.title.substring(0, text.length) === text;
+        return element.title.substring(0, text.length).toLowerCase() === text;
       });
       setData(filterData);
       setSearch(text);
     };
   
     return (
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaView style={styles.backgroundStyle}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
+          backgroundColor={styles.backgroundStyle.backgroundColor}
         />
         <SearchBar        
           placeholder="Find your music sheet"        

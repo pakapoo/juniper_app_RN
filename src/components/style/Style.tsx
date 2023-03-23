@@ -2,16 +2,14 @@ import {
     StyleSheet,
     useColorScheme,
   } from 'react-native';
-import {
-Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import Colors from './Colors';
 
 const styles = () => {
     const isDarkMode = useColorScheme() === 'dark';
 
     const template = StyleSheet.create({
         searchItem: {
-            backgroundColor:  isDarkMode ? Colors.darker : Colors.lighter,
+            backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
             padding: 20,
             marginVertical: 8,
             marginHorizontal: 16,
@@ -28,6 +26,12 @@ const styles = () => {
         marginTop: 8,
         fontSize: 18,
         fontWeight: '400',
+        },
+        backgroundStyle: {
+            backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+        },
+        searchBar: {
+            backgroundColor: isDarkMode ? 'light-content' : 'dark-content',
         },
     });
 
